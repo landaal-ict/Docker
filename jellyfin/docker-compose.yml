@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin
+    container_name: jellyfin
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    ports:
+      - 8096:8096
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/config
+      - /pool/Media:/Media
+networks:
+  proxy:
+    external: true

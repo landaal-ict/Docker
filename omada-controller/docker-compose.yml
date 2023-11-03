@@ -1,0 +1,23 @@
+version: "3.1"
+
+services:
+   omada-controller:
+     container_name: omada-controller
+     image: mbentley/omada-controller
+     environment:
+      - TZ=Europe/Amsterdam
+      - MANAGE_HTTP_PORT=8088
+      - MANAGE_HTTPS_PORT=8043
+      - PORTAL_HTTP_PORT=8088
+      - PORTAL_HTTPS_PORT=8043
+      - SHOW_SERVER_LOGS=true
+      - SHOW_MONGODB_LOGS=false
+      #- SSL_CERT_NAME="tls.crt"
+      #- SSL_KEY_NAME="tls.key"
+     network_mode: host
+
+     volumes:
+      - ./data:/opt/tplink/EAPController/data
+      - ./work:/opt/tplink/EAPController/work
+      - ./logs:/opt/tplink/EAPController/logs
+     restart: unless-stopped

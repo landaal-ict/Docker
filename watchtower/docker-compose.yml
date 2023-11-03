@@ -1,0 +1,25 @@
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    environment:
+      - TZ=Europe/Amsterdam
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_INCLUDE_STOPPED=true
+      - WATCHTOWER_REVIVE_STOPPED=false
+      - WATCHTOWER_SCHEDULE=0 0 4 * * *
+    command: # add or remove the below as required
+      - passbolt
+      - omada-controller
+      - portainer
+      - uptime-kuma
+      - unifi-network-application
+      - watchtower
+      - trilium
+      - jellyfin
+      - picsur
+      - zerotier
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    network_mode: host
+    restart: unless-stopped

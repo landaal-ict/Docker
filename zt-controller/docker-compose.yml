@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  ztncui:
+    image: keynetworks/ztncui
+    container_name: zerotier
+    restart: unless-stopped
+    networks:
+      - proxy
+    environment:
+      - USER_UID=1000 #adjust to your system
+      - USER_GID=1000 #adjust to your system
+      - NODE_ENV=production
+      - HTTPS_PORT=3443
+      - ZTNCUI_PASSWD=$pass  #change this
+      - MYDOMAIN=$domain #change this to the domain you want to use for the controller
+      - MYADDR=$ip #this is optional. if you use it, this is the public IP your ISP gave you
+    volumes:
+      - ./ztncui:/opt/key-networks/ztncui/etc
+      - ./zt1:/var/lib/zerotier-one
+    ports:
+      - 3443:3443 #dashboard port
+      - 3180:3180
+networks:
+  proxy:
+    external: true

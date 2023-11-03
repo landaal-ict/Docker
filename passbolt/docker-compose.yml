@@ -1,0 +1,59 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10.3
+    restart: unless-stopped
+    container_name: mysql-passbolt
+    networks:
+      - proxy
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_DATABASE: "passbolt"
+      MYSQL_USER: "$user"
+      MYSQL_PASSWORD: "$pass"
+    volumes:
+      - database_volume:/var/lib/mysql
+
+  passbolt:
+    image: passbolt/passbolt:latest-ce
+    container_name: passbolt
+    networks:
+      - proxy
+    #Alternatively you can use rootless:
+    #image: passbolt/passbolt:latest-ce-non-root
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      APP_FULL_BASE_URL: "$url"
+      DATASOURCES_DEFAULT_HOST: "db"
+      DATASOURCES_DEFAULT_USERNAME: "$user"
+      DATASOURCES_DEFAULT_PASSWORD: "$pass"
+      DATASOURCES_DEFAULT_DATABASE: "passbolt"
+      EMAIL_DEFAULT_FROM_NAME: "$frommail"
+      EMAIL_DEFAULT_FROM: "$frommail"
+      EMAIL_TRANSPORT_DEFAULT_HOST: "mail.smtp2go.com"
+      EMAIL_TRANSPORT_DEFAULT_PORT: "587"
+      EMAIL_TRANSPORT_DEFAULT_USERNAME: "$email"
+      EMAIL_TRANSPORT_DEFAULT_PASSWORD: "$mailpass"
+      EMAIL_TRANSPORT_DEFAULT_TLS: "true"
+
+    volumes:
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
+    command: ["/usr/bin/wait-for.sh", "-t", "0", "db:3306", "--", "/docker-entrypoint.sh"]
+    ports:
+      - 8001:80
+      - 4431:443
+    #Alternatively for non-root images:
+    # - 8080:80
+    # - 4443:433
+
+volumes:
+  database_volume:
+  gpg_volume:
+  jwt_volume:
+
+networks:
+  proxy:
+    external: true
