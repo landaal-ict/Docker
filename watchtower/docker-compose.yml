@@ -19,6 +19,8 @@ services:
       - jellyfin
       - picsur
       - zerotier
+      - frigate
+      - NPM
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     network_mode: host
