@@ -75,5 +75,5 @@ Je moet je admin token hashen voor vaultarden zodat het geen platte tekst is.
 Ik heb deze site er voor gebruikt [Argon2 online](https://argon2.online/)  
 
 # Netbootxyz
-## stap voor stap  
+  
 Alle stappen kun je [hier vinden](https://landaalict.nl/posts/pxe/)
