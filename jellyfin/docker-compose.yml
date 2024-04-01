@@ -14,7 +14,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./config:/config
-      - /pool/Media:/Media
+      - /DATA/Media:/Media
 networks:
   proxy:
     external: true
