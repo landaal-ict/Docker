@@ -18,8 +18,3 @@ services:
                 max-file: "10"
                 max-size: "200k"
         restart: unless-stopped
-        
-        
-        # DEFAULT LOGIN
-        # username	admin@admin.com
-        # password	password
