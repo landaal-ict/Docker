@@ -1,0 +1,17 @@
+---
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./config:/config
+      - /DATA/Media/Downloads:/Downloads #optional personal location
+      - /DATA/Media/Incomp-Downloads:/incomplete-downloads #optional personal location
+
+    ports:
+      - 8080:8080
+    restart: unless-stopped
